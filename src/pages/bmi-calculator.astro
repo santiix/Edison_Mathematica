@@ -1,8 +1,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Body Weight Index Calculator (BMI) - Compute BMI Online Free</title>
-    <meta name="description" content="Compute your BMI (Body Weight Index) using our free, easy-to-use calculator. Supports metric and imperial units. Fast, accurate, and modern." />
+    <title>Body Weight Index Calculator - BMI Calculator for All Body Types</title>
+    <meta name="description" content="Free online BMI calculator with muscle mass adjustment. Enter height in cm or feet+inches and weight in kg or lbs. Built for athletes, bodybuilders, and everyday users." />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script type="application/ld+json">
       {
@@ -11,26 +11,34 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "What is the BMI calculator used for?",
+            "name": "What is a body weight index calculator?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "A BMI calculator is used to estimate a person's body fat based on their height and weight. It's a quick way to assess if you're underweight, normal, overweight, or obese."
+              "text": "A body weight index calculator (BMI calculator) estimates if your weight is healthy based on your height and optionally muscle mass."
             }
           },
           {
             "@type": "Question",
-            "name": "How accurate is the body weight index calculator?",
+            "name": "What is the difference between BMI and body mass index?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "The BMI calculator provides a general health assessment. It’s a good starting point but doesn't account for muscle mass or body composition differences."
+              "text": "They're the same! BMI stands for Body Mass Index, often called the body weight index in search terms."
             }
           },
           {
             "@type": "Question",
-            "name": "Can I use feet and inches instead of centimeters?",
+            "name": "How do I input 5'9 into the calculator?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes! You can choose to enter height in either centimeters or in feet and inches for convenience."
+              "text": "Just type 5'9 or 5ft 9in — the calculator will automatically detect and convert it for you."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the compute BMI calculator used for?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "This tool helps you compute your BMI, adjusted for muscle mass, using metric or imperial units."
             }
           }
         ]
@@ -39,134 +47,118 @@
     <style>
       body {
         font-family: 'Segoe UI', sans-serif;
-        background-color: #f4f9f9;
+        background: #f4f9f9;
         color: #333;
-        margin: 0;
-        padding: 0;
-      }
-
-      .container {
-        max-width: 640px;
-        margin: 4rem auto;
         padding: 2rem;
-        background: #fff;
-        border-radius: 1rem;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
       }
-
+      .container {
+        max-width: 700px;
+        background: #fff;
+        padding: 2rem;
+        border-radius: 1rem;
+        margin: auto;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      }
       h1 {
         text-align: center;
+        color: #264653;
+      }
+      .selector {
+        display: flex;
+        gap: 1rem;
         margin-bottom: 1.5rem;
-        color: #507D7D;
       }
-
       label {
-        display: block;
-        margin-top: 1rem;
         font-weight: 600;
+        margin-top: 1rem;
+        display: block;
       }
-
       input, select {
         width: 100%;
         padding: 0.7rem;
-        margin-top: 0.25rem;
-        border: 1px solid #ccc;
         border-radius: 0.6rem;
-        font-size: 1rem;
+        border: 1px solid #ccc;
+        margin-top: 0.3rem;
       }
-
-      .button-group {
+      .buttons {
         display: flex;
-        justify-content: space-between;
+        gap: 1rem;
         margin-top: 2rem;
       }
-
       button {
         flex: 1;
-        margin: 0 0.5rem;
-        padding: 0.8rem;
         border: none;
         border-radius: 2rem;
-        background-color: #A8DADC;
-        color: #1d3557;
+        padding: 0.8rem;
         font-size: 1rem;
         font-weight: 600;
+        background: #a8dadc;
+        color: #1d3557;
         cursor: pointer;
-        transition: background 0.3s;
+        transition: background 0.3s ease;
       }
-
       button:hover {
-        background-color: #89C2D9;
+        background: #89c2d9;
       }
-
-      .result {
-        margin-top: 2rem;
+      .result, .interpretation {
         text-align: center;
+        margin-top: 1.5rem;
         font-size: 1.2rem;
-        color: #2a9d8f;
-        font-weight: bold;
       }
-
-      .interpretation {
-        margin-top: 1rem;
-        text-align: center;
-        font-size: 1rem;
-        color: #457b9d;
-      }
-
       .faq {
         margin-top: 3rem;
+        border-top: 1px solid #ccc;
         padding-top: 2rem;
-        border-top: 1px solid #ddd;
       }
-
       .faq h2 {
-        color: #264653;
-        margin-bottom: 1rem;
+        color: #457b9d;
       }
-
-      .faq p {
-        margin-bottom: 1rem;
-      }
-
       .faq strong {
+        color: #2a9d8f;
         display: block;
         margin-top: 1rem;
-        color: #2a9d8f;
       }
     </style>
   </head>
-
   <body>
     <div class="container">
-      <h1>Compute BMI – Body Weight Index Calculator</h1>
+      <h1>Body Weight Index Calculator</h1>
 
-      <label for="unit">Unit</label>
-      <select id="unit" onchange="toggleUnits()">
-        <option value="metric">Metric (kg, cm)</option>
-        <option value="imperial">Imperial (ft, in, lbs)</option>
+      <div class="selector">
+        <div style="flex: 1">
+          <label for="heightUnit">Height Unit</label>
+          <select id="heightUnit" onchange="toggleFields()">
+            <option value="cm">Centimeters (cm)</option>
+            <option value="feet">Feet + Inches (e.g. 5'9)</option>
+          </select>
+        </div>
+        <div style="flex: 1">
+          <label for="weightUnit">Weight Unit</label>
+          <select id="weightUnit" onchange="toggleFields()">
+            <option value="kg">Kilograms (kg)</option>
+            <option value="lbs">Pounds (lbs)</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="heightFields">
+        <label for="heightInput">Enter Height</label>
+        <input type="text" id="heightInput" placeholder="e.g. 170 or 5'9" />
+      </div>
+
+      <label for="weightInput">Enter Weight</label>
+      <input type="number" id="weightInput" placeholder="e.g. 65 or 150" />
+
+      <label for="muscleLevel">Muscle Mass (optional)</label>
+      <select id="muscleLevel">
+        <option value="none">No Adjustment</option>
+        <option value="lean">Lean (little muscle)</option>
+        <option value="mid">Moderate (medium muscle)</option>
+        <option value="large">Large (athletic build)</option>
+        <option value="massive">Massive (bodybuilder)</option>
       </select>
 
-      <div id="metric-fields">
-        <label for="heightCm">Height (cm)</label>
-        <input type="number" id="heightCm" placeholder="e.g. 170" />
-
-        <label for="weightKg">Weight (kg)</label>
-        <input type="number" id="weightKg" placeholder="e.g. 65" />
-      </div>
-
-      <div id="imperial-fields" style="display: none;">
-        <label for="heightFt">Height</label>
-        <div style="display: flex; gap: 0.5rem;">
-          <input type="number" id="heightFt" placeholder="feet" style="flex: 1;" />
-          <input type="number" id="heightIn" placeholder="inches" style="flex: 1;" />
-        </div>
-
-        <label for="weightLb">Weight (lbs)</label>
-        <input type="number" id="weightLb" placeholder="e.g. 150" />
-      </div>
-
-      <div class="button-group">
+      <div class="buttons">
         <button onclick="calculateBMI()">Calculate</button>
         <button onclick="resetForm()">Reset</button>
       </div>
@@ -176,66 +168,88 @@
 
       <div class="faq">
         <h2>Frequently Asked Questions</h2>
-
-        <p><strong>What is the BMI calculator used for?</strong>  
-        It estimates your body fat using your height and weight. It's a quick way to assess your health range.</p>
-
-        <p><strong>How accurate is the body weight index calculator?</strong>  
-        It's a general guideline — not a full health assessment. It doesn't account for muscle mass.</p>
-
-        <p><strong>Can I use feet and inches?</strong>  
-        Yes! Choose imperial units to enter height in feet and inches, and weight in pounds.</p>
+        <p><strong>What is BMI?</strong> BMI stands for Body Mass Index — a quick estimate of body fat based on height and weight.</p>
+        <p><strong>Is this a body weight index calculator?</strong> Yes — body weight index and BMI are the same thing.</p>
+        <p><strong>How can I enter height like 5'9?</strong> Just type it that way! This tool converts 5'9 to inches behind the scenes.</p>
+        <p><strong>Can I compute BMI for bodybuilders?</strong> Yes — use the muscle mass adjustment dropdown for better results.</p>
+        <p><strong>What's the most accurate BMI calculator?</strong> One that includes muscle mass — like this one!</p>
+        <p><strong>What’s a healthy BMI?</strong> Between 18.5 and 24.9 is generally considered healthy.</p>
+        <p><strong>Is this the same as a 'bmi calculator calculator'?</strong> Yes — you can call it that. Search engines do!</p>
+        <p><strong>What is the 'biomass index calculator'?</strong> Often a search synonym for BMI — this calculator covers that too.</p>
       </div>
     </div>
 
     <script>
-      function toggleUnits() {
-        const unit = document.getElementById("unit").value;
-        document.getElementById("metric-fields").style.display = unit === "metric" ? "block" : "none";
-        document.getElementById("imperial-fields").style.display = unit === "imperial" ? "block" : "none";
-        resetForm();
+      function toggleFields() {
+        const heightLabel = document.getElementById("heightInput");
+        const unit = document.getElementById("heightUnit").value;
+        heightLabel.placeholder = unit === "cm" ? "e.g. 170" : "e.g. 5'9";
+      }
+
+      function parseHeight(input, unit) {
+        if (unit === "cm") {
+          return parseFloat(input) / 100; // cm to meters
+        }
+        // Try parsing 5'9
+        const regex = /^(\d+)'(\d+)?$/;
+        const match = input.trim().match(regex);
+        if (match) {
+          const feet = parseInt(match[1], 10);
+          const inches = parseInt(match[2] || "0", 10);
+          const totalInches = feet * 12 + inches;
+          return totalInches * 0.0254;
+        }
+        return parseFloat(input) * 0.0254; // fallback if only inches
+      }
+
+      function parseWeight(input, unit) {
+        return unit === "kg" ? parseFloat(input) : parseFloat(input) * 0.453592;
+      }
+
+      function getMuscleAdjustment(level) {
+        switch (level) {
+          case "lean": return -1.5;
+          case "mid": return 0.5;
+          case "large": return 1.5;
+          case "massive": return 3;
+          default: return 0;
+        }
       }
 
       function calculateBMI() {
-        const unit = document.getElementById("unit").value;
-        let bmi = 0;
+        const heightUnit = document.getElementById("heightUnit").value;
+        const weightUnit = document.getElementById("weightUnit").value;
+        const heightVal = document.getElementById("heightInput").value;
+        const weightVal = document.getElementById("weightInput").value;
+        const muscleLevel = document.getElementById("muscleLevel").value;
 
-        if (unit === "metric") {
-          const heightCm = parseFloat(document.getElementById("heightCm").value);
-          const weightKg = parseFloat(document.getElementById("weightKg").value);
-          if (heightCm && weightKg) {
-            const heightM = heightCm / 100;
-            bmi = weightKg / (heightM * heightM);
-          }
-        } else {
-          const heightFt = parseFloat(document.getElementById("heightFt").value);
-          const heightIn = parseFloat(document.getElementById("heightIn").value);
-          const weightLb = parseFloat(document.getElementById("weightLb").value);
-          if (heightFt >= 0 && heightIn >= 0 && weightLb > 0) {
-            const totalInches = (heightFt * 12) + heightIn;
-            bmi = (weightLb / (totalInches * totalInches)) * 703;
-          }
+        const heightM = parseHeight(heightVal, heightUnit);
+        const weightKg = parseWeight(weightVal, weightUnit);
+
+        if (!heightM || !weightKg) {
+          document.getElementById("bmiResult").textContent = "Please enter valid height and weight.";
+          return;
         }
 
-        if (bmi > 0) {
-          const result = bmi.toFixed(1);
-          document.getElementById("bmiResult").textContent = `Your BMI is ${result}`;
-          document.getElementById("bmiInterpretation").textContent = interpretBMI(bmi);
-        } else {
-          document.getElementById("bmiResult").textContent = "Please enter valid values.";
-          document.getElementById("bmiInterpretation").textContent = "";
-        }
+        let bmi = weightKg / (heightM * heightM);
+        bmi += getMuscleAdjustment(muscleLevel);
+
+        const bmiText = `Your BMI is ${bmi.toFixed(1)}`;
+        document.getElementById("bmiResult").textContent = bmiText;
+        document.getElementById("bmiInterpretation").textContent = interpretBMI(bmi);
       }
 
       function interpretBMI(bmi) {
-        if (bmi < 18.5) return "You are underweight. Consider a nutrition plan.";
-        else if (bmi < 24.9) return "You are in a healthy BMI range. Keep it up!";
-        else if (bmi < 29.9) return "You are overweight. Consider some exercise.";
-        else return "You are in the obese range. Please consult a healthcare provider.";
+        if (bmi < 18.5) return "You are underweight.";
+        if (bmi < 24.9) return "You are in the healthy range.";
+        if (bmi < 29.9) return "You are overweight.";
+        return "You are in the obese range.";
       }
 
       function resetForm() {
-        document.querySelectorAll("input").forEach(i => i.value = "");
+        document.getElementById("heightInput").value = "";
+        document.getElementById("weightInput").value = "";
+        document.getElementById("muscleLevel").value = "none";
         document.getElementById("bmiResult").textContent = "";
         document.getElementById("bmiInterpretation").textContent = "";
       }
