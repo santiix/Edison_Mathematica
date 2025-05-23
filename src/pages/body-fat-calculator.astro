@@ -2,96 +2,36 @@
 <head>
   <meta charset="UTF-8">
   <title>Body Fat Percentage Calculator - Accurate Navy Method</title>
-  <meta name="description" content="Estimate your body fat percentage using the U.S. Navy method. Works for men and women using waist, neck, and height. Learn how body fat compares to BMI and what your result means for your health." />
+  <meta name="description" content="Estimate your body fat percentage using the U.S. Navy method. Works for men and women using waist, neck, height, and weight. Learn how body fat compares to BMI and what your result means for your health." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f4f9f9;
-      color: #333;
-      padding: 2rem;
-      margin: 0;
-    }
-    .container {
-      max-width: 700px;
-      background: #fff;
-      padding: 2rem;
-      border-radius: 1rem;
-      margin: auto;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    }
-    h1 {
-      text-align: center;
-      color: #264653;
-    }
-    label {
-      font-weight: 600;
-      margin-top: 1rem;
-      display: block;
-    }
-    input, select {
-      width: 100%;
-      padding: 0.7rem;
-      border-radius: 0.6rem;
-      border: 1px solid #ccc;
-      margin-top: 0.3rem;
-    }
-    button {
-      width: 100%;
-      border: none;
-      border-radius: 2rem;
-      padding: 0.8rem;
-      font-size: 1rem;
-      font-weight: 600;
-      background: #a8dadc;
-      color: #1d3557;
-      cursor: pointer;
-      margin-top: 2rem;
-    }
-    button:hover {
-      background: #89c2d9;
-    }
-    .result {
-      text-align: center;
-      margin-top: 1.5rem;
-      font-size: 1.4rem;
-      font-weight: bold;
-    }
-    .back-link {
-      text-align: center;
-      margin-top: 3rem;
-    }
-    .back-link a {
-      display: inline-block;
-      padding: 0.6rem 1.2rem;
-      background-color: #e0f2f1;
-      color: #00796b;
-      border-radius: 1.5rem;
-      text-decoration: none;
-      font-weight: 600;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-    .faq {
-      margin-top: 3rem;
-      border-top: 1px solid #ccc;
-      padding-top: 2rem;
-    }
-    .faq h2 {
-      color: #457b9d;
-    }
-    .faq strong {
-      display: block;
-      margin-top: 1rem;
-      color: #2a9d8f;
-    }
+    body { font-family: 'Segoe UI', sans-serif; background: #f4f9f9; color: #333; padding: 2rem; margin: 0; }
+    .container { max-width: 700px; background: #fff; padding: 2rem; border-radius: 1rem; margin: auto; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); }
+    h1 { text-align: center; color: #264653; }
+    label { font-weight: 600; margin-top: 1rem; display: block; }
+    input, select { width: 100%; padding: 0.7rem; border-radius: 0.6rem; border: 1px solid #ccc; margin-top: 0.3rem; }
+    button { width: 100%; border: none; border-radius: 2rem; padding: 0.8rem; font-size: 1rem; font-weight: 600; background: #a8dadc; color: #1d3557; cursor: pointer; margin-top: 2rem; }
+    button:hover { background: #89c2d9; }
+    .result { text-align: center; margin-top: 1.5rem; font-size: 1.4rem; font-weight: bold; }
+    .back-link { text-align: center; margin-top: 3rem; }
+    .back-link a { display: inline-block; padding: 0.6rem 1.2rem; background-color: #e0f2f1; color: #00796b; border-radius: 1.5rem; text-decoration: none; font-weight: 600; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+    .faq { margin-top: 3rem; border-top: 1px solid #ccc; padding-top: 2rem; }
+    .faq h2 { color: #457b9d; }
+    .faq strong { display: block; margin-top: 1rem; color: #2a9d8f; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Body Fat Percentage Calculator</h1>
     <p style="text-align:center; margin-bottom:2rem">
-      This free body fat calculator estimates your body fat percentage using the U.S. Navy Method — a trusted formula based on your gender, height, neck, waist, and hip measurements. More accurate than BMI, it's ideal for tracking fitness, building muscle, or planning weight loss.
+      This body fat calculator estimates fat percentage using the U.S. Navy method. Choose imperial or metric units, enter weight, height, neck, waist, and hips to get accurate results.
     </p>
+
+    <label for="unit">Units</label>
+    <select id="unit" onchange="toggleUnits()">
+      <option value="imperial">Imperial (lbs, feet/inches)</option>
+      <option value="metric">Metric (kg, cm)</option>
+    </select>
 
     <label for="gender">Gender</label>
     <select id="gender">
@@ -99,96 +39,68 @@
       <option value="female">Female</option>
     </select>
 
-    <label for="height">Height (in inches)</label>
-    <input type="number" id="height" placeholder="e.g. 70" />
+    <label for="weight">Weight</label>
+    <input type="text" id="weight" placeholder="e.g. 150 or 70" />
 
-    <label for="neck">Neck Circumference (in inches)</label>
-    <input type="number" id="neck" placeholder="e.g. 15.5" />
+    <label for="height">Height</label>
+    <input type="text" id="height" placeholder="e.g. 5'10 or 178" />
 
-    <label for="waist">Waist Circumference (in inches)</label>
-    <input type="number" id="waist" placeholder="e.g. 34.5" />
+    <label for="neck">Neck Circumference</label>
+    <input type="text" id="neck" placeholder="e.g. 15.5 or 39" />
 
-    <label for="hip" id="hipLabel" style="display:none;">Hip Circumference (in inches)</label>
-    <input type="number" id="hip" placeholder="e.g. 38.5" style="display:none;" />
+    <label for="waist">Waist Circumference</label>
+    <input type="text" id="waist" placeholder="e.g. 34.5 or 88" />
+
+    <label for="hip" id="hipLabel" style="display:none;">Hip Circumference</label>
+    <input type="text" id="hip" placeholder="e.g. 38.5 or 96" style="display:none;" />
 
     <button onclick="calculateBodyFat()">Calculate Body Fat %</button>
-
     <div class="result" id="bfResult"></div>
-
-    <div class="faq">
-      <h2>📘 FAQ: Understanding Body Fat, Accuracy, and Health</h2>
-      <p><strong>Is body fat calculation the same as BMI?</strong><br>
-      No! BMI only uses height and weight. Body fat percentage estimates your actual fat content using measurements, making it more reliable for fitness goals.</p>
-
-      <p><strong>What’s a healthy body fat percentage?</strong><br>
-      Men: 10–20%. Women: 18–28%. Athletes can go lower, but everyone is different. Use this as a guideline.</p>
-
-      <p><strong>Can I use this to track weight loss?</strong><br>
-      Absolutely. It’s great for tracking fat loss, which is more important than scale weight alone.</p>
-
-      <p><strong>Why measure waist, neck, and hips?</strong><br>
-      These areas indicate fat storage. The Navy formula uses them to estimate your fat more precisely.</p>
-
-      <p><strong>Why does it ask for hips for women?</strong><br>
-      Women tend to store fat in the hips. It improves accuracy of the body fat estimate.</p>
-
-      <p><strong>How accurate is it?</strong><br>
-      It’s a strong estimate. Not perfect like DEXA scans, but great for daily fitness tracking.</p>
-
-      <p><strong>What if I’m over 30%?</strong><br>
-      That’s considered high. It’s a signal to consider diet, activity, or medical guidance. No shame — just awareness.</p>
-
-      <p><strong>Is this better than scale weight?</strong><br>
-      Yes. Two people may weigh the same but have different body fat percentages — body fat reveals much more.</p>
-
-      <p><strong>How should I measure?</strong><br>
-      Use soft measuring tape. Measure waist at belly button, hips at widest point, and neck below the larynx.</p>
-
-      <p><strong>Can kids use this?</strong><br>
-      No. This tool is meant for adults. Kids need age-specific charts.</p>
-
-      <p><strong>How often should I check?</strong><br>
-      Every 1–2 weeks. Avoid obsessing daily. Track trends instead.</p>
-
-      <p><strong>Will lifting weights affect my body fat?</strong><br>
-      Yes! You might lose fat while gaining muscle — that’s why body fat is a better metric than the scale.</p>
-
-      <p><strong>What’s a typical athletic range?</strong><br>
-      Men: 6–13%. Women: 14–20%. Staying in this range often means strong, lean, and healthy.</p>
-
-      <p><strong>Does water weight matter?</strong><br>
-      A little. For best results, measure under similar conditions, ideally in the morning before meals.</p>
-
-      <p><strong>Can bodybuilders use this?</strong><br>
-      Yes. It’s a helpful tracker during bulking and cutting phases — more accurate than BMI alone.</p>
-    </div>
 
     <div class="back-link">
       <a href="/">← Back to All Calculators</a>
     </div>
   </div>
 
-  <script is:client="load">
+  <script>
     const genderSelect = document.getElementById("gender");
     const hipInput = document.getElementById("hip");
     const hipLabel = document.getElementById("hipLabel");
+    const unitSelect = document.getElementById("unit");
 
     genderSelect.addEventListener("change", () => {
-      if (genderSelect.value === "female") {
-        hipInput.style.display = "block";
-        hipLabel.style.display = "block";
-      } else {
-        hipInput.style.display = "none";
-        hipLabel.style.display = "none";
-      }
+      const show = genderSelect.value === "female";
+      hipInput.style.display = show ? "block" : "none";
+      hipLabel.style.display = show ? "block" : "none";
     });
 
+    function toggleUnits() {
+      document.getElementById("weight").placeholder = unitSelect.value === "imperial" ? "e.g. 150" : "e.g. 70";
+      document.getElementById("height").placeholder = unitSelect.value === "imperial" ? "e.g. 5'10" : "e.g. 178";
+      document.getElementById("neck").placeholder = unitSelect.value === "imperial" ? "e.g. 15.5" : "e.g. 39";
+      document.getElementById("waist").placeholder = unitSelect.value === "imperial" ? "e.g. 34.5" : "e.g. 88";
+      document.getElementById("hip").placeholder = unitSelect.value === "imperial" ? "e.g. 38.5" : "e.g. 96";
+    }
+
+    function parseHeight(input, unit) {
+      if (unit === "metric") return parseFloat(input) / 100;
+      const parts = input.replace(/[’‘`]/g, "'").replace(/feet|ft|inches|in|\"|”/gi, "").replace(/\s+/g, '').match(/(\d+)'?(\d*)?/);
+      const feet = parseInt(parts[1] || '0');
+      const inches = parseInt(parts[2] || '0');
+      return (feet * 12 + inches) * 0.0254;
+    }
+
+    function parseInches(input, unit) {
+      return unit === "metric" ? parseFloat(input) / 2.54 : parseFloat(input);
+    }
+
     function calculateBodyFat() {
-      const gender = document.getElementById("gender").value;
-      const height = parseFloat(document.getElementById("height").value);
-      const neck = parseFloat(document.getElementById("neck").value);
-      const waist = parseFloat(document.getElementById("waist").value);
-      const hip = parseFloat(document.getElementById("hip").value);
+      const gender = genderSelect.value;
+      const unit = unitSelect.value;
+      const height = parseHeight(document.getElementById("height").value, unit);
+      const neck = parseInches(document.getElementById("neck").value, unit);
+      const waist = parseInches(document.getElementById("waist").value, unit);
+      const hip = parseInches(document.getElementById("hip").value, unit);
       const result = document.getElementById("bfResult");
 
       if (!height || !neck || !waist || (gender === "female" && !hip)) {
@@ -196,14 +108,14 @@
         return;
       }
 
-      let bodyFat;
+      let bf;
       if (gender === "male") {
-        bodyFat = 86.010 * Math.log10(waist - neck) - 70.041 * Math.log10(height) + 36.76;
+        bf = 86.010 * Math.log10(waist - neck) - 70.041 * Math.log10(height * 100) + 36.76;
       } else {
-        bodyFat = 163.205 * Math.log10(waist + hip - neck) - 97.684 * Math.log10(height) - 78.387;
+        bf = 163.205 * Math.log10(waist + hip - neck) - 97.684 * Math.log10(height * 100) - 78.387;
       }
 
-      result.textContent = `Estimated Body Fat: ${bodyFat.toFixed(1)}%`;
+      result.textContent = `Estimated Body Fat: ${bf.toFixed(1)}%`;
     }
   </script>
 </body>
