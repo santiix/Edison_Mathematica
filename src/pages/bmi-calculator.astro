@@ -188,26 +188,33 @@
         document.getElementById("heightInput").placeholder = heightUnit === "cm" ? "e.g. 170" : "e.g. 5'9";
       }
 
-      function parseHeight(input, unit) {
-        if (unit === "cm") return parseFloat(input) / 100;
+	function parseHeight(input, unit) {
+  	if (unit === "cm") return parseFloat(input) / 100;
 
-        input = input.trim()
-          .replace(/[’‘`]/g, "'")
-          .replace(/ft|feet|in|inches|"/gi, "")
-          .replace(/\s+/g, '');
+  	input = input.trim()
+    	.replace(/[’‘`]/g, "'")
+    	.replace(/(feet|ft|inches|in|”|")/gi, "")
+    	.replace(/\s+/g, '');
 
-        const regex = /^(\d+)'(\d+)?$/;
-        const match = input.match(regex);
+  	const regex = /^(\d+)'(\d+)?$/;
+  	const match = input.match(regex);
 
-        if (match) {
-          const feet = parseInt(match[1], 10);
-          const inches = parseInt(match[2] || "0", 10);
-          return (feet * 12 + inches) * 0.0254;
-        }
+	  if (match) {
+    	const feet = parseInt(match[1], 10);
+    	const inches = parseInt(match[2] || "0", 10);
+    	return (feet * 12 + inches) * 0.0254;
+  	}
 
-        const fallback = parseFloat(input);
-        return isNaN(fallback) ? null : fallback * 0.0254;
-      }
+  	const numeric = parseFloat(input);
+
+  	// If someone typed just “5” while in feet mode, assume it’s feet:
+  	if (unit === "feet" && numeric < 10) {
+    	return numeric * 12 * 0.0254; // convert feet to inches then to meters
+  	}
+
+  	// Assume it’s raw inches if greater than 10
+  	return numeric * 0.0254;
+	}
 
       function parseWeight(input, unit) {
         return unit === "kg" ? parseFloat(input) : parseFloat(input) * 0.453592;
