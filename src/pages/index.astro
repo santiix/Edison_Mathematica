@@ -1,131 +1,89 @@
 ---
-const tools = [
-  {
-    title: "BMI Calculator",
-    url: "/bmi-calculator/",
-    desc: "Calculate your Body Mass Index using height and weight."
-  },
-  {
-    title: "Time Difference Calculator",
-    url: "/time-difference-calculator/",
-    desc: "Find the difference between two time values."
-  },
-  {
-    title: "Calorie Deficit Calculator",
-    url: "/calorie-deficit-calculator/",
-    desc: "Estimate calorie deficit for your weight loss goals."
-  },
-  {
-    title: "Income Per Hour Calculator",
-    url: "/income-per-hour/",
-    desc: "Convert your yearly salary into an hourly wage."
-  },
-  {
-    title: "RREF Matrix Calculator",
-    url: "/rref-calculator/",
-    desc: "Solve matrix equations using reduced row echelon form."
-  }
-  // Add more tools here as needed
-];
 ---
-
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Free Online Tools | Edison Mathematica</title>
-    <meta name="description" content="Useful online tools and calculators like BMI, time difference, and more." />
+    <title>Calculator Tools - Edison Mathematica</title>
+    <meta name="description" content="Free online tools and calculators for health, math, time, and more. Easy to use and optimized for quick results." />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: sans-serif;
+        background: #f8fafc;
+        padding: 2rem;
+        color: #333;
+        margin: 0;
+      }
+      .container {
+        max-width: 960px;
+        margin: auto;
+      }
+      h1, h2 {
+        color: #264653;
+        margin-bottom: 1rem;
+      }
+      .grid {
+        display: grid;
+        gap: 1.5rem;
+        grid-template-columns: 1fr 1fr;
+      }
+      .tile {
+        background: #ffffff;
+        padding: 1.5rem;
+        border-radius: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        text-decoration: none;
+        color: #264653;
+        transition: box-shadow 0.2s ease;
+      }
+      .tile:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+      }
+      .tile h3 {
+        margin: 0 0 0.5rem;
+        font-size: 1.2rem;
+      }
+      .tile p {
+        font-size: 0.95rem;
+        margin: 0;
+        color: #555;
+      }
+      @media (max-width: 640px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
   </head>
-  <body style="font-family: sans-serif; margin: 0; background: #f6f6f6;">
+  <body>
+    <div class="container">
 
-    <header style="text-align: center; padding: 2rem 1rem;">
-      <h1>Edison Mathematica</h1>
-      <p>Your source for simple, helpful calculators</p>
-    </header>
+      <h2>🧮 Latest Calculators</h2>
+      <div class="grid">
+        <a href="/bmi-calculator" class="tile">
+          <h3>BMI Calculator</h3>
+          <p>Calculate your Body Mass Index with muscle adjustment options.</p>
+        </a>
+        <a href="/time-calculator" class="tile">
+          <h3>Time Difference Calculator</h3>
+          <p>Find the difference between any two times or dates.</p>
+        </a>
+        <!-- Add more calculator tiles here -->
+      </div>
 
-    <main style="display: flex; flex-direction: row; justify-content: center;">
+      <h2 style="margin-top: 4rem;">📰 Latest Articles</h2>
+      <div class="grid">
+        <a href="/blog/bmi-35" class="tile">
+          <h3>What to Do If Your BMI Is 35 or More</h3>
+          <p>Understand the risks and healthy changes for a high BMI score.</p>
+        </a>
+        <a href="/blog/bmi-muscle" class="tile">
+          <h3>Does Muscle Mass Affect BMI?</h3>
+          <p>Find out why BMI might be inaccurate for muscular individuals.</p>
+        </a>
+        <!-- Add more blog tiles as needed -->
+      </div>
 
-      <!-- Left AdSense Space -->
-      <aside style="width: 160px; margin-right: 1rem;">
-        <!-- Google AdSense code will go here -->
-      </aside>
-
-      <!-- Tool Tiles Grid -->
-      <section style="max-width: 900px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; padding: 1rem;">
-        {tools.map(tool => (
-          <a href={tool.url} style="display: block; background: white; border-radius: 8px; padding: 1rem; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-decoration: none; color: black;">
-            <h2 style="margin-top: 0;">{tool.title}</h2>
-            <p>{tool.desc}</p>
-          </a>
-        ))}
-      </section>
-<section style="margin-top: 4rem;">
-  <h2 style="color: #264653;">📰 Latest Articles</h2>
-  <div style="
-    display: grid;
-    gap: 1.5rem;
-    grid-template-columns: 1fr;
-    max-width: 900px;
-    margin-top: 1rem;
-  ">
-
-    <!-- Blog Card 1 -->
-    <div style="
-      background: #fff;
-      padding: 1.2rem;
-      border-radius: 0.75rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      transition: box-shadow 0.2s ease;
-    ">
-      <a href="/blog/bmi-35" style="
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #2a9d8f;
-        text-decoration: none;
-      ">
-        What to Do If Your BMI Is 35 or More
-      </a>
-      <p style="margin-top: 0.5rem; color: #555;">
-        Learn what a BMI of 35 means, associated health risks, and how to lower it with small lifestyle changes.
-      </p>
     </div>
-
-    <!-- Blog Card 2 -->
-    <div style="
-      background: #fff;
-      padding: 1.2rem;
-      border-radius: 0.75rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      transition: box-shadow 0.2s ease;
-    ">
-      <a href="/blog/bmi-muscle" style="
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #2a9d8f;
-        text-decoration: none;
-      ">
-        Does Muscle Mass Affect BMI?
-      </a>
-      <p style="margin-top: 0.5rem; color: #555;">
-        Discover why BMI isn't always accurate for muscular individuals and what metrics are better.
-      </p>
-    </div>
-
-  </div>
-</section>
-
-
-      <!-- Right AdSense Space -->
-      <aside style="width: 160px; margin-left: 1rem;">
-        <!-- Google AdSense code will go here -->
-      </aside>
-
-    </main>
-
-    <footer style="text-align: center; padding: 2rem 1rem; font-size: 0.9rem; color: #666;">
-      © {new Date().getFullYear()} Edison Mathematica. All rights reserved.
-    </footer>
-    
   </body>
 </html>
-
