@@ -1,0 +1,193 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RREF Calculator - Reduced Row Echelon Form Matrix Tool</title>
+  <meta name="description" content="Easily compute the reduced row echelon form (RREF) of any matrix. Great for students studying linear algebra. Enter your matrix, see each step, and understand how to reduce it." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f9f9;
+      color: #333;
+      padding: 2rem;
+      margin: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+    h1 {
+      color: #264653;
+      text-align: center;
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+      padding: 1rem;
+      font-family: monospace;
+      font-size: 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #ccc;
+      margin-top: 1rem;
+    }
+    button {
+      width: 100%;
+      margin-top: 1.5rem;
+      padding: 0.8rem;
+      border-radius: 2rem;
+      background-color: #a8dadc;
+      color: #1d3557;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #89c2d9;
+    }
+    pre {
+      background: #f1f1f1;
+      padding: 1rem;
+      overflow: auto;
+      margin-top: 2rem;
+      border-radius: 0.5rem;
+    }
+    .faq {
+      margin-top: 3rem;
+      border-top: 1px solid #ccc;
+      padding-top: 2rem;
+    }
+    .faq h2 {
+      color: #457b9d;
+    }
+    .faq strong {
+      display: block;
+      margin-top: 1rem;
+      color: #2a9d8f;
+    }
+    .back-link {
+      text-align: center;
+      margin-top: 3rem;
+    }
+    .back-link a {
+      display: inline-block;
+      padding: 0.6rem 1.2rem;
+      background-color: #e0f2f1;
+      color: #00796b;
+      border-radius: 1.5rem;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>RREF Calculator</h1>
+    <p style="text-align:center; margin-bottom:2rem">
+      Paste your matrix using spaces and new lines (e.g. "1 2 3\n4 5 6\n7 8 9") and get the Reduced Row Echelon Form instantly.
+    </p>
+
+    <label for="matrixInput">Enter Matrix:</label>
+    <textarea id="matrixInput" placeholder="1 2 3\n4 5 6\n7 8 9"></textarea>
+
+    <button onclick="calculateRREF()">Calculate RREF</button>
+
+    <pre id="result"></pre>
+
+    <div class="faq">
+      <h2>📘 FAQ: What Is RREF and How to Use It</h2>
+
+      <p><strong>What is RREF?</strong><br>
+      RREF stands for Reduced Row Echelon Form. It’s a form of a matrix where each leading entry is 1, and all values above and below leading 1s are zero. It’s used to solve systems of linear equations efficiently.</p>
+
+      <p><strong>How do I input my matrix?</strong><br>
+      Enter each row on a new line, and use spaces to separate values. Example:
+      <br><code>1 2 3\n4 5 6\n7 8 9</code></p>
+
+      <p><strong>When do you use RREF?</strong><br>
+      In linear algebra, RREF is used for:
+      <ul>
+        <li>Solving systems of equations</li>
+        <li>Finding matrix rank</li>
+        <li>Determining if a matrix is invertible</li>
+      </ul>
+      </p>
+
+      <p><strong>Does every matrix have a unique RREF?</strong><br>
+      Yes — every matrix has one unique reduced row echelon form. This makes it especially useful in proofs and solving equations consistently.</p>
+
+      <p><strong>Can I see the row operations used?</strong><br>
+      Currently this tool shows the final RREF only, but we plan to add a step-by-step breakdown soon.</p>
+
+      <p><strong>What’s an example of RREF?</strong><br>
+      For matrix:
+      <pre>
+1 2 -1  3
+2 4  1  7
+-1 2  5  1</pre>
+      The RREF is:
+      <pre>
+1 0 0  2
+0 1 0 -1
+0 0 1  3</pre>
+      </p>
+    </div>
+
+    <div class="back-link">
+      <a href="/">← Back to All Calculators</a>
+    </div>
+  </div>
+
+  <script is:client="load">
+    function calculateRREF() {
+      const input = document.getElementById("matrixInput").value.trim();
+      const resultEl = document.getElementById("result");
+      try {
+        const rows = input.split("\n").map(row => row.trim().split(/\s+/).map(Number));
+        const rref = computeRREF(rows);
+        const formatted = rref.map(row => row.map(val => val.toFixed(2).padStart(6)).join(" ")).join("\n");
+        resultEl.textContent = formatted;
+      } catch (e) {
+        resultEl.textContent = "⚠️ Invalid matrix input. Please check your formatting.";
+      }
+    }
+
+    function computeRREF(matrix) {
+      const rowCount = matrix.length;
+      const colCount = matrix[0].length;
+      let lead = 0;
+
+      for (let r = 0; r < rowCount; r++) {
+        if (lead >= colCount) return matrix;
+        let i = r;
+        while (matrix[i][lead] === 0) {
+          i++;
+          if (i === rowCount) {
+            i = r;
+            lead++;
+            if (colCount === lead) return matrix;
+          }
+        }
+
+        [matrix[i], matrix[r]] = [matrix[r], matrix[i]];
+
+        let lv = matrix[r][lead];
+        matrix[r] = matrix[r].map(val => val / lv);
+
+        for (let i = 0; i < rowCount; i++) {
+          if (i !== r) {
+            let lv = matrix[i][lead];
+            matrix[i] = matrix[i].map((val, j) => val - lv * matrix[r][j]);
+          }
+        }
+        lead++;
+      }
+      return matrix;
+    }
+  </script>
+</body>
+</html>
