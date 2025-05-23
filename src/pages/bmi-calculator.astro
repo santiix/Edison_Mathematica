@@ -1,3 +1,5 @@
+---
+---
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -180,16 +182,14 @@
       </div>
     </div>
 
-    <script>
+    <script is:client="load">
       function toggleFields() {
         const heightUnit = document.getElementById("heightUnit").value;
         document.getElementById("heightInput").placeholder = heightUnit === "cm" ? "e.g. 170" : "e.g. 5'9";
       }
 
       function parseHeight(input, unit) {
-        if (unit === "cm") {
-          return parseFloat(input) / 100;
-        }
+        if (unit === "cm") return parseFloat(input) / 100;
 
         input = input.trim()
           .replace(/[’‘`]/g, "'")
