@@ -1,0 +1,179 @@
+---
+---
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>All-in-One Percentage Calculator - Increase, Decrease, Growth, Difference</title>
+  <meta name="description" content="Calculate percentage increase, decrease, difference, and growth with one easy tool. Clear inputs, instant results, and SEO-rich FAQs for every scenario." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f9f9;
+      color: #333;
+      padding: 2rem;
+      margin: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+    h1, h2 {
+      color: #264653;
+    }
+    label {
+      font-weight: 600;
+      margin-top: 1rem;
+      display: block;
+    }
+    input {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 0.6rem;
+      border: 1px solid #ccc;
+      margin-top: 0.3rem;
+    }
+    button {
+      margin-top: 1rem;
+      border: none;
+      border-radius: 2rem;
+      padding: 0.8rem 1.2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      background: #a8dadc;
+      color: #1d3557;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #89c2d9;
+    }
+    .section {
+      margin-bottom: 3rem;
+    }
+    .result {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+    .faq {
+      margin-top: 2rem;
+    }
+    .faq strong {
+      display: block;
+      margin-top: 1rem;
+      color: #2a9d8f;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>All-in-One Percentage Calculator</h1>
+    <p>Use this simple percentage calculator to instantly find percentage increase, loss (decrease), difference, and growth between any two values. Great for finance, shopping, math, and everyday decisions.</p>
+
+    <div class="section">
+      <h2>📈 Percentage Increase</h2>
+      <label>Original Value</label>
+      <input id="increaseOld" type="number" placeholder="e.g. 100" />
+      <label>New Value</label>
+      <input id="increaseNew" type="number" placeholder="e.g. 120" />
+      <button onclick="calculateIncrease()">Calculate Increase</button>
+      <div class="result" id="increaseResult"></div>
+
+      <div class="faq">
+        <strong>How to calculate percentage increase?</strong>
+        Subtract the original from the new value, divide by the original, then multiply by 100.
+        <strong>When do I use it?</strong>
+        Use this for salary hikes, product price rises, or profit margins.
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>📉 Percentage Decrease (Loss)</h2>
+      <label>Original Value</label>
+      <input id="decreaseOld" type="number" placeholder="e.g. 200" />
+      <label>New Value</label>
+      <input id="decreaseNew" type="number" placeholder="e.g. 150" />
+      <button onclick="calculateDecrease()">Calculate Loss</button>
+      <div class="result" id="decreaseResult"></div>
+
+      <div class="faq">
+        <strong>How to calculate percentage loss?</strong>
+        Subtract the new value from the original, divide by the original, then multiply by 100.
+        <strong>When do I use it?</strong>
+        Use this for investment losses, discounts, or value drops.
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>🔄 Percentage Difference</h2>
+      <label>Value A</label>
+      <input id="diffA" type="number" placeholder="e.g. 75" />
+      <label>Value B</label>
+      <input id="diffB" type="number" placeholder="e.g. 100" />
+      <button onclick="calculateDifference()">Calculate Difference</button>
+      <div class="result" id="diffResult"></div>
+
+      <div class="faq">
+        <strong>What is percentage difference?</strong>
+        The absolute difference between two numbers divided by their average, then multiplied by 100.
+        <strong>When to use this?</strong>
+        Comparing grades, measurements, or sales from different sources.
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>🚀 Percentage Growth Over Time</h2>
+      <label>Starting Value</label>
+      <input id="growthStart" type="number" placeholder="e.g. 500" />
+      <label>Ending Value</label>
+      <input id="growthEnd" type="number" placeholder="e.g. 750" />
+      <button onclick="calculateGrowth()">Calculate Growth</button>
+      <div class="result" id="growthResult"></div>
+
+      <div class="faq">
+        <strong>How is percentage growth calculated?</strong>
+        Same formula as increase: (final - start) / start × 100.
+        <strong>Where it's useful?</strong>
+        Track income, savings, weight loss progress, or business metrics over time.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function calculateIncrease() {
+      const oldVal = parseFloat(document.getElementById("increaseOld").value);
+      const newVal = parseFloat(document.getElementById("increaseNew").value);
+      const result = ((newVal - oldVal) / oldVal) * 100;
+      document.getElementById("increaseResult").textContent = `Percentage Increase: ${result.toFixed(2)}%`;
+    }
+
+    function calculateDecrease() {
+      const oldVal = parseFloat(document.getElementById("decreaseOld").value);
+      const newVal = parseFloat(document.getElementById("decreaseNew").value);
+      const result = ((oldVal - newVal) / oldVal) * 100;
+      document.getElementById("decreaseResult").textContent = `Percentage Loss: ${result.toFixed(2)}%`;
+    }
+
+    function calculateDifference() {
+      const a = parseFloat(document.getElementById("diffA").value);
+      const b = parseFloat(document.getElementById("diffB").value);
+      const avg = (a + b) / 2;
+      const diff = Math.abs(a - b);
+      const result = (diff / avg) * 100;
+      document.getElementById("diffResult").textContent = `Percentage Difference: ${result.toFixed(2)}%`;
+    }
+
+    function calculateGrowth() {
+      const start = parseFloat(document.getElementById("growthStart").value);
+      const end = parseFloat(document.getElementById("growthEnd").value);
+      const result = ((end - start) / start) * 100;
+      document.getElementById("growthResult").textContent = `Percentage Growth: ${result.toFixed(2)}%`;
+    }
+  </script>
+</body>
+</html>
