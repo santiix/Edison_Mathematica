@@ -1,16 +1,76 @@
 ---
-
+const tools = [
+  {
+    title: "BMI Calculator",
+    url: "/bmi-calculator/",
+    desc: "Calculate your Body Mass Index using height and weight."
+  },
+  {
+    title: "Time Difference Calculator",
+    url: "/time-difference-calculator/",
+    desc: "Find the difference between two time values."
+  },
+  {
+    title: "Calorie Deficit Calculator",
+    url: "/calorie-deficit-calculator/",
+    desc: "Estimate calorie deficit for your weight loss goals."
+  },
+  {
+    title: "Income Per Hour Calculator",
+    url: "/income-per-hour/",
+    desc: "Convert your yearly salary into an hourly wage."
+  },
+  {
+    title: "RREF Matrix Calculator",
+    url: "/rref-calculator/",
+    desc: "Solve matrix equations using reduced row echelon form."
+  }
+  // Add more tools here as needed
+];
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Free Online Tools | Edison Mathematica</title>
+    <meta name="description" content="Useful online tools and calculators like BMI, time difference, and more." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body style="font-family: sans-serif; margin: 0; background: #f6f6f6;">
+
+    <header style="text-align: center; padding: 2rem 1rem;">
+      <h1>Edison Mathematica</h1>
+      <p>Your source for simple, helpful calculators</p>
+    </header>
+
+    <main style="display: flex; flex-direction: row; justify-content: center;">
+
+      <!-- Left AdSense Space -->
+      <aside style="width: 160px; margin-right: 1rem;">
+        <!-- Google AdSense code will go here -->
+      </aside>
+
+      <!-- Tool Tiles Grid -->
+      <section style="max-width: 900px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; padding: 1rem;">
+        {tools.map(tool => (
+          <a href={tool.url} style="display: block; background: white; border-radius: 8px; padding: 1rem; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-decoration: none; color: black;">
+            <h2 style="margin-top: 0;">{tool.title}</h2>
+            <p>{tool.desc}</p>
+          </a>
+        ))}
+      </section>
+
+      <!-- Right AdSense Space -->
+      <aside style="width: 160px; margin-left: 1rem;">
+        <!-- Google AdSense code will go here -->
+      </aside>
+
+    </main>
+
+    <footer style="text-align: center; padding: 2rem 1rem; font-size: 0.9rem; color: #666;">
+      © {new Date().getFullYear()} Edison Mathematica. All rights reserved.
+    </footer>
+    
+  </body>
 </html>
+
