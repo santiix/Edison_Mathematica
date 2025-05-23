@@ -59,23 +59,61 @@ const tools = [
           </a>
         ))}
       </section>
-      <section style="margin-top: 4rem;">
-  	<h2 style="color: #264653;">📰 Health Articles</h2>
-  	<ul style="list-style: none; padding-left: 0;">
-    	<li style="margin-bottom: 1rem;">
-	     <a href="/blog/bmi-35" style="text-decoration: none; color: #2a9d8f; font-weight: 600;">
-		• What to Do If Your BMI Is 35 or More
- 	     </a>
- 	   </li>
- 	   <li style="margin-bottom: 1rem;">
-	     <a href="/blog/bmi-muscle" style="text-decoration: none; color: #2a9d8f; font-weight: 600;">
-		• Does Muscle Mass Affect BMI?
-  	     </a>
-  	  </li>
-  	  <!-- Add more here as new blogs are published -->
- 	 </ul>
-	</section>
-	
+<section style="margin-top: 4rem;">
+  <h2 style="color: #264653;">📰 Latest Articles</h2>
+  <div style="
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+    max-width: 900px;
+    margin-top: 1rem;
+  ">
+
+    <!-- Blog Card 1 -->
+    <div style="
+      background: #fff;
+      padding: 1.2rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      transition: box-shadow 0.2s ease;
+    ">
+      <a href="/blog/bmi-35" style="
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #2a9d8f;
+        text-decoration: none;
+      ">
+        What to Do If Your BMI Is 35 or More
+      </a>
+      <p style="margin-top: 0.5rem; color: #555;">
+        Learn what a BMI of 35 means, associated health risks, and how to lower it with small lifestyle changes.
+      </p>
+    </div>
+
+    <!-- Blog Card 2 -->
+    <div style="
+      background: #fff;
+      padding: 1.2rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      transition: box-shadow 0.2s ease;
+    ">
+      <a href="/blog/bmi-muscle" style="
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #2a9d8f;
+        text-decoration: none;
+      ">
+        Does Muscle Mass Affect BMI?
+      </a>
+      <p style="margin-top: 0.5rem; color: #555;">
+        Discover why BMI isn't always accurate for muscular individuals and what metrics are better.
+      </p>
+    </div>
+
+  </div>
+</section>
+
 
       <!-- Right AdSense Space -->
       <aside style="width: 160px; margin-left: 1rem;">
