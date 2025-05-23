@@ -13,23 +13,21 @@
     button { width: 100%; border: none; border-radius: 2rem; padding: 0.8rem; font-size: 1rem; font-weight: 600; background: #a8dadc; color: #1d3557; cursor: pointer; margin-top: 2rem; }
     button:hover { background: #89c2d9; }
     .result { text-align: center; margin-top: 1.5rem; font-size: 1.4rem; font-weight: bold; }
+    .error { color: #d90429; margin-top: 1rem; font-weight: 600; text-align: center; }
     .back-link { text-align: center; margin-top: 3rem; }
     .back-link a { display: inline-block; padding: 0.6rem 1.2rem; background-color: #e0f2f1; color: #00796b; border-radius: 1.5rem; text-decoration: none; font-weight: 600; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-    .faq { margin-top: 3rem; border-top: 1px solid #ccc; padding-top: 2rem; }
-    .faq h2 { color: #457b9d; }
-    .faq strong { display: block; margin-top: 1rem; color: #2a9d8f; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Body Fat Percentage Calculator</h1>
     <p style="text-align:center; margin-bottom:2rem">
-      This body fat calculator estimates fat percentage using the U.S. Navy method. Choose imperial or metric units, enter weight, height, neck, waist, and hips to get accurate results.
+      Estimate your body fat percentage using the U.S. Navy Method. Choose between lbs/kg and ft+in/cm. Results are more accurate than BMI.
     </p>
 
     <label for="unit">Units</label>
     <select id="unit" onchange="toggleUnits()">
-      <option value="imperial">Imperial (lbs, feet/inches)</option>
+      <option value="imperial">Imperial (lbs, ft+in)</option>
       <option value="metric">Metric (kg, cm)</option>
     </select>
 
@@ -56,13 +54,14 @@
 
     <button onclick="calculateBodyFat()">Calculate Body Fat %</button>
     <div class="result" id="bfResult"></div>
+    <div class="error" id="error"></div>
 
     <div class="back-link">
       <a href="/">← Back to All Calculators</a>
     </div>
   </div>
 
-  <script is:client="load">
+  <script>
     const genderSelect = document.getElementById("gender");
     const hipInput = document.getElementById("hip");
     const hipLabel = document.getElementById("hipLabel");
@@ -91,20 +90,35 @@
     }
 
     function parseInches(input, unit) {
-      return unit === "metric" ? parseFloat(input) / 2.54 : parseFloat(input);
+      const val = parseFloat(input);
+      return isNaN(val) ? 0 : (unit === "metric" ? val / 2.54 : val);
     }
 
     function calculateBodyFat() {
       const gender = genderSelect.value;
       const unit = unitSelect.value;
-      const height = parseHeight(document.getElementById("height").value, unit);
+      const heightRaw = document.getElementById("height").value;
+      const weight = document.getElementById("weight").value;
       const neck = parseInches(document.getElementById("neck").value, unit);
       const waist = parseInches(document.getElementById("waist").value, unit);
       const hip = parseInches(document.getElementById("hip").value, unit);
+      const height = parseHeight(heightRaw, unit);
       const result = document.getElementById("bfResult");
+      const error = document.getElementById("error");
 
-      if (!height || !neck || !waist || (gender === "female" && !hip)) {
-        result.textContent = "⚠️ Please fill in all required fields.";
+      result.textContent = "";
+      error.textContent = "";
+
+      if (!height || height < 0.5 || height > 2.5) {
+        error.textContent = "Please enter a valid height.";
+        return;
+      }
+      if (!neck || !waist || (gender === "female" && !hip)) {
+        error.textContent = "Please enter all measurements.";
+        return;
+      }
+      if ((gender === "male" && waist <= neck) || (gender === "female" && waist + hip <= neck)) {
+        error.textContent = "Waist must be greater than neck. For females, waist + hip must exceed neck.";
         return;
       }
 
