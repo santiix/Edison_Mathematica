@@ -34,6 +34,14 @@
               "@type": "Answer",
               "text": "Yes — the muscle mass option adjusts the result for lean, athletic, or bodybuilder body types."
             }
+          },
+          {
+            "@type": "Question",
+            "name": "What should I do if my BMI is too high or too low?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "If your BMI is too high, consider a balanced diet and regular exercise. If it's too low, focus on nutrient-rich calories and consult a healthcare provider."
+            }
           }
         ]
       }
@@ -130,6 +138,10 @@
     <div class="container">
       <h1>Body Weight Index Calculator</h1>
 
+      <p style="text-align: center; margin-bottom: 2rem;">
+        The Body Mass Index (BMI), also known as the Body Weight Index or biomass index calculator, is a widely used screening tool to estimate a person’s body fat based on height and weight. This free compute BMI calculator works for both metric and imperial units, supports muscle mass adjustments, and provides guidance if your BMI is too high or too low.
+      </p>
+
       <div class="selector">
         <div style="flex: 1">
           <label for="heightUnit">Height Unit</label>
@@ -174,11 +186,30 @@
 
       <div class="faq">
         <h2>Frequently Asked Questions</h2>
-        <p><strong>What is BMI?</strong> BMI stands for Body Mass Index — a quick estimate of body fat based on height and weight.</p>
-        <p><strong>How can I enter height like 5'9?</strong> Just type it that way! This tool converts 5'9, 5 ft 9, or 70 inches correctly.</p>
-        <p><strong>What’s a healthy BMI?</strong> Between 18.5 and 24.9 is considered healthy.</p>
-        <p><strong>Is this for bodybuilders?</strong> Yes — use the muscle mass option to adjust the result.</p>
-        <p><strong>What is the body weight index calculator?</strong> It's the same as a BMI calculator — different name, same function.</p>
+
+        <p><strong>What is BMI?</strong>  
+        BMI stands for Body Mass Index — it estimates body fat based on height and weight.</p>
+
+        <p><strong>How can I enter height like 5'9?</strong>  
+        Just type it that way! This calculator supports formats like 5'9, 5 ft 9 in, or 69 inches.</p>
+
+        <p><strong>What’s a healthy BMI?</strong>  
+        A healthy BMI is typically between 18.5 and 24.9 for most adults. However, this can vary by body composition and age.</p>
+
+        <p><strong>What if my BMI is too high?</strong>  
+        A high BMI (over 30) may indicate obesity. Consider speaking with a healthcare provider. You can begin with small lifestyle changes like a balanced diet, walking 30 minutes daily, or using a calorie deficit calculator to plan weight loss goals.</p>
+
+        <p><strong>What if my BMI is too low?</strong>  
+        A low BMI (under 18.5) may suggest you're underweight. Focus on a nutrient-rich diet, increase healthy calories, and consider strength training. A dietitian can provide personalized advice.</p>
+
+        <p><strong>Is this the same as a 'bmi calculator calculator'?</strong>  
+        Yes — some users search that way, but it's the same as any BMI calculator.</p>
+
+        <p><strong>Does this work for athletes and bodybuilders?</strong>  
+        Yes. Use the muscle mass adjustment to better estimate your BMI. Standard BMI doesn't account for muscle weight, which can skew results.</p>
+
+        <p><strong>Is this a biomass index calculator?</strong>  
+        It's often a misused term for BMI. This calculator gives you a personal body weight index — also called a computed BMI.</p>
       </div>
     </div>
 
@@ -188,33 +219,30 @@
         document.getElementById("heightInput").placeholder = heightUnit === "cm" ? "e.g. 170" : "e.g. 5'9";
       }
 
-	function parseHeight(input, unit) {
-  	if (unit === "cm") return parseFloat(input) / 100;
+      function parseHeight(input, unit) {
+        if (unit === "cm") return parseFloat(input) / 100;
 
-  	input = input.trim()
-    	.replace(/[’‘`]/g, "'")
-    	.replace(/(feet|ft|inches|in|”|")/gi, "")
-    	.replace(/\s+/g, '');
+        input = input.trim()
+          .replace(/[’‘`]/g, "'")
+          .replace(/(feet|ft|inches|in|”|")/gi, "")
+          .replace(/\s+/g, '');
 
-  	const regex = /^(\d+)'(\d+)?$/;
-  	const match = input.match(regex);
+        const regex = /^(\d+)'(\d+)?$/;
+        const match = input.match(regex);
 
-	  if (match) {
-    	const feet = parseInt(match[1], 10);
-    	const inches = parseInt(match[2] || "0", 10);
-    	return (feet * 12 + inches) * 0.0254;
-  	}
+        if (match) {
+          const feet = parseInt(match[1], 10);
+          const inches = parseInt(match[2] || "0", 10);
+          return (feet * 12 + inches) * 0.0254;
+        }
 
-  	const numeric = parseFloat(input);
+        const numeric = parseFloat(input);
+        if (unit === "feet" && numeric < 10) {
+          return numeric * 12 * 0.0254;
+        }
 
-  	// If someone typed just “5” while in feet mode, assume it’s feet:
-  	if (unit === "feet" && numeric < 10) {
-    	return numeric * 12 * 0.0254; // convert feet to inches then to meters
-  	}
-
-  	// Assume it’s raw inches if greater than 10
-  	return numeric * 0.0254;
-	}
+        return numeric * 0.0254;
+      }
 
       function parseWeight(input, unit) {
         return unit === "kg" ? parseFloat(input) : parseFloat(input) * 0.453592;
