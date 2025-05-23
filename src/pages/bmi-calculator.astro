@@ -19,26 +19,18 @@
           },
           {
             "@type": "Question",
-            "name": "What is the difference between BMI and body mass index?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "They're the same! BMI stands for Body Mass Index, often called the body weight index in search terms."
-            }
-          },
-          {
-            "@type": "Question",
             "name": "How do I input 5'9 into the calculator?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Just type 5'9, 5 ft 9, or 5’9 — the calculator will automatically detect and convert it for you."
+              "text": "Just type 5'9, 5 ft 9, or 70 inches — the calculator will detect and convert it automatically."
             }
           },
           {
             "@type": "Question",
-            "name": "What is the compute BMI calculator used for?",
+            "name": "Can bodybuilders use this BMI calculator?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "This tool helps you compute your BMI, adjusted for muscle mass, using metric or imperial units."
+              "text": "Yes — the muscle mass option adjusts the result for lean, athletic, or bodybuilder body types."
             }
           }
         ]
@@ -100,11 +92,23 @@
       button:hover {
         background: #89c2d9;
       }
-      .result, .interpretation {
+      .result {
         text-align: center;
         margin-top: 1.5rem;
-        font-size: 1.2rem;
+        font-size: 1.4rem;
+        font-weight: bold;
       }
+      .result.good { color: #2a9d8f; }
+      .result.warning { color: #e9c46a; }
+      .result.high { color: #e76f51; }
+
+      .interpretation {
+        text-align: center;
+        margin-top: 0.5rem;
+        font-size: 1rem;
+        color: #264653;
+      }
+
       .faq {
         margin-top: 3rem;
         border-top: 1px solid #ccc;
@@ -169,13 +173,10 @@
       <div class="faq">
         <h2>Frequently Asked Questions</h2>
         <p><strong>What is BMI?</strong> BMI stands for Body Mass Index — a quick estimate of body fat based on height and weight.</p>
-        <p><strong>Is this a body weight index calculator?</strong> Yes — body weight index and BMI are the same thing.</p>
-        <p><strong>How can I enter height like 5'9?</strong> Just type it that way! This tool converts 5'9 to inches behind the scenes.</p>
-        <p><strong>Can I compute BMI for bodybuilders?</strong> Yes — use the muscle mass adjustment dropdown for better results.</p>
-        <p><strong>What's the most accurate BMI calculator?</strong> One that includes muscle mass — like this one!</p>
-        <p><strong>What’s a healthy BMI?</strong> Between 18.5 and 24.9 is generally considered healthy.</p>
-        <p><strong>Is this the same as a 'bmi calculator calculator'?</strong> Yes — you can call it that. Search engines do!</p>
-        <p><strong>What is the 'biomass index calculator'?</strong> Often a search synonym for BMI — this calculator covers that too.</p>
+        <p><strong>How can I enter height like 5'9?</strong> Just type it that way! This tool converts 5'9, 5 ft 9, or 70 inches correctly.</p>
+        <p><strong>What’s a healthy BMI?</strong> Between 18.5 and 24.9 is considered healthy.</p>
+        <p><strong>Is this for bodybuilders?</strong> Yes — use the muscle mass option to adjust the result.</p>
+        <p><strong>What is the body weight index calculator?</strong> It's the same as a BMI calculator — different name, same function.</p>
       </div>
     </div>
 
@@ -191,9 +192,9 @@
         }
 
         input = input.trim()
-          .replace(/[’‘`]/g, "'")         // normalize quotes
-          .replace(/ft|feet|in|inches|"/gi, "") // strip units
-          .replace(/\s+/g, '');           // remove spaces
+          .replace(/[’‘`]/g, "'")
+          .replace(/ft|feet|in|inches|"/gi, "")
+          .replace(/\s+/g, '');
 
         const regex = /^(\d+)'(\d+)?$/;
         const match = input.match(regex);
@@ -229,21 +230,33 @@
         const weightVal = document.getElementById("weightInput").value;
         const muscleLevel = document.getElementById("muscleLevel").value;
 
+        const resultEl = document.getElementById("bmiResult");
+        const interpEl = document.getElementById("bmiInterpretation");
+
+        resultEl.className = "result";
+        interpEl.textContent = "";
+
         const heightM = parseHeight(heightVal, heightUnit);
         const weightKg = parseWeight(weightVal, weightUnit);
 
-        if (!heightM || !weightKg) {
-          document.getElementById("bmiResult").textContent = "Please enter valid height and weight.";
-          document.getElementById("bmiInterpretation").textContent = "";
+        if (!heightM || !weightKg || isNaN(heightM) || isNaN(weightKg)) {
+          resultEl.textContent = "Please enter valid height and weight.";
           return;
         }
 
         let bmi = weightKg / (heightM * heightM);
         bmi += getMuscleAdjustment(muscleLevel);
+        bmi = parseFloat(bmi.toFixed(1));
 
-        const bmiText = `Your BMI is ${bmi.toFixed(1)}`;
-        document.getElementById("bmiResult").textContent = bmiText;
-        document.getElementById("bmiInterpretation").textContent = interpretBMI(bmi);
+        let category = "";
+        if (bmi < 18.5) category = "underweight";
+        else if (bmi < 24.9) category = "healthy";
+        else if (bmi < 29.9) category = "overweight";
+        else category = "obese";
+
+        resultEl.textContent = `Your BMI is ${bmi}`;
+        interpEl.textContent = interpretBMI(bmi);
+        resultEl.classList.add(getColorClass(category));
       }
 
       function interpretBMI(bmi) {
@@ -253,12 +266,22 @@
         return "You are in the obese range.";
       }
 
+      function getColorClass(category) {
+        switch (category) {
+          case "healthy": return "good";
+          case "overweight": return "warning";
+          case "obese": return "high";
+          default: return "high";
+        }
+      }
+
       function resetForm() {
         document.getElementById("heightInput").value = "";
         document.getElementById("weightInput").value = "";
         document.getElementById("muscleLevel").value = "none";
         document.getElementById("bmiResult").textContent = "";
         document.getElementById("bmiInterpretation").textContent = "";
+        document.getElementById("bmiResult").className = "result";
       }
     </script>
   </body>
