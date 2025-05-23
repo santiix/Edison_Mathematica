@@ -1,5 +1,6 @@
 ---
 ---
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -144,36 +145,53 @@
     </div>
   </div>
 
-  <script>
-    function calculateIncrease() {
-      const oldVal = parseFloat(document.getElementById("increaseOld").value);
-      const newVal = parseFloat(document.getElementById("increaseNew").value);
-      const result = ((newVal - oldVal) / oldVal) * 100;
-      document.getElementById("increaseResult").textContent = `Percentage Increase: ${result.toFixed(2)}%`;
+<script>
+  function calculateIncrease() {
+    const oldVal = parseFloat(document.getElementById("increaseOld").value);
+    const newVal = parseFloat(document.getElementById("increaseNew").value);
+    if (isNaN(oldVal) || isNaN(newVal) || oldVal === 0) {
+      document.getElementById("increaseResult").textContent = "Please enter valid numbers.";
+      return;
     }
+    const result = ((newVal - oldVal) / oldVal) * 100;
+    document.getElementById("increaseResult").textContent = `Percentage Increase: ${result.toFixed(2)}%`;
+  }
 
-    function calculateDecrease() {
-      const oldVal = parseFloat(document.getElementById("decreaseOld").value);
-      const newVal = parseFloat(document.getElementById("decreaseNew").value);
-      const result = ((oldVal - newVal) / oldVal) * 100;
-      document.getElementById("decreaseResult").textContent = `Percentage Loss: ${result.toFixed(2)}%`;
+  function calculateDecrease() {
+    const oldVal = parseFloat(document.getElementById("decreaseOld").value);
+    const newVal = parseFloat(document.getElementById("decreaseNew").value);
+    if (isNaN(oldVal) || isNaN(newVal) || oldVal === 0) {
+      document.getElementById("decreaseResult").textContent = "Please enter valid numbers.";
+      return;
     }
+    const result = ((oldVal - newVal) / oldVal) * 100;
+    document.getElementById("decreaseResult").textContent = `Percentage Loss: ${result.toFixed(2)}%`;
+  }
 
-    function calculateDifference() {
-      const a = parseFloat(document.getElementById("diffA").value);
-      const b = parseFloat(document.getElementById("diffB").value);
-      const avg = (a + b) / 2;
-      const diff = Math.abs(a - b);
-      const result = (diff / avg) * 100;
-      document.getElementById("diffResult").textContent = `Percentage Difference: ${result.toFixed(2)}%`;
+  function calculateDifference() {
+    const a = parseFloat(document.getElementById("diffA").value);
+    const b = parseFloat(document.getElementById("diffB").value);
+    if (isNaN(a) || isNaN(b) || (a + b === 0)) {
+      document.getElementById("diffResult").textContent = "Please enter valid numbers.";
+      return;
     }
+    const avg = (a + b) / 2;
+    const diff = Math.abs(a - b);
+    const result = (diff / avg) * 100;
+    document.getElementById("diffResult").textContent = `Percentage Difference: ${result.toFixed(2)}%`;
+  }
 
-    function calculateGrowth() {
-      const start = parseFloat(document.getElementById("growthStart").value);
-      const end = parseFloat(document.getElementById("growthEnd").value);
-      const result = ((end - start) / start) * 100;
-      document.getElementById("growthResult").textContent = `Percentage Growth: ${result.toFixed(2)}%`;
+  function calculateGrowth() {
+    const start = parseFloat(document.getElementById("growthStart").value);
+    const end = parseFloat(document.getElementById("growthEnd").value);
+    if (isNaN(start) || isNaN(end) || start === 0) {
+      document.getElementById("growthResult").textContent = "Please enter valid numbers.";
+      return;
     }
-  </script>
+    const result = ((end - start) / start) * 100;
+    document.getElementById("growthResult").textContent = `Percentage Growth: ${result.toFixed(2)}%`;
+  }
+</script>
+
 </body>
 </html>
