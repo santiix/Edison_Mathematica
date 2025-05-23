@@ -1,15 +1,39 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>BMI Calculator - Edison Mathematica</title>
-    <meta name="description" content="Calculate your Body Mass Index (BMI) using our simple, modern tool. Supports metric and imperial units." />
+    <title>Body Weight Index Calculator (BMI) - Compute BMI Online Free</title>
+    <meta name="description" content="Compute your BMI (Body Weight Index) using our free, easy-to-use calculator. Supports metric and imperial units. Fast, accurate, and modern." />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "BMI Calculator",
-        "description": "Free BMI Calculator for accurate health insights"
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the BMI calculator used for?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A BMI calculator is used to estimate a person's body fat based on their height and weight. It's a quick way to assess if you're underweight, normal, overweight, or obese."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How accurate is the body weight index calculator?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The BMI calculator provides a general health assessment. It’s a good starting point but doesn't account for muscle mass or body composition differences."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I use feet and inches instead of centimeters?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes! You can choose to enter height in either centimeters or in feet and inches for convenience."
+            }
+          }
+        ]
       }
     </script>
     <style>
@@ -22,7 +46,7 @@
       }
 
       .container {
-        max-width: 600px;
+        max-width: 640px;
         margin: 4rem auto;
         padding: 2rem;
         background: #fff;
@@ -89,16 +113,38 @@
         font-size: 1rem;
         color: #457b9d;
       }
+
+      .faq {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid #ddd;
+      }
+
+      .faq h2 {
+        color: #264653;
+        margin-bottom: 1rem;
+      }
+
+      .faq p {
+        margin-bottom: 1rem;
+      }
+
+      .faq strong {
+        display: block;
+        margin-top: 1rem;
+        color: #2a9d8f;
+      }
     </style>
   </head>
 
   <body>
     <div class="container">
-      <h1>BMI Calculator</h1>
+      <h1>Compute BMI – Body Weight Index Calculator</h1>
+
       <label for="unit">Unit</label>
       <select id="unit" onchange="toggleUnits()">
         <option value="metric">Metric (kg, cm)</option>
-        <option value="imperial">Imperial (lbs, inches)</option>
+        <option value="imperial">Imperial (ft, in, lbs)</option>
       </select>
 
       <div id="metric-fields">
@@ -110,8 +156,11 @@
       </div>
 
       <div id="imperial-fields" style="display: none;">
-        <label for="heightIn">Height (inches)</label>
-        <input type="number" id="heightIn" placeholder="e.g. 67" />
+        <label for="heightFt">Height</label>
+        <div style="display: flex; gap: 0.5rem;">
+          <input type="number" id="heightFt" placeholder="feet" style="flex: 1;" />
+          <input type="number" id="heightIn" placeholder="inches" style="flex: 1;" />
+        </div>
 
         <label for="weightLb">Weight (lbs)</label>
         <input type="number" id="weightLb" placeholder="e.g. 150" />
@@ -124,6 +173,19 @@
 
       <div class="result" id="bmiResult"></div>
       <div class="interpretation" id="bmiInterpretation"></div>
+
+      <div class="faq">
+        <h2>Frequently Asked Questions</h2>
+
+        <p><strong>What is the BMI calculator used for?</strong>  
+        It estimates your body fat using your height and weight. It's a quick way to assess your health range.</p>
+
+        <p><strong>How accurate is the body weight index calculator?</strong>  
+        It's a general guideline — not a full health assessment. It doesn't account for muscle mass.</p>
+
+        <p><strong>Can I use feet and inches?</strong>  
+        Yes! Choose imperial units to enter height in feet and inches, and weight in pounds.</p>
+      </div>
     </div>
 
     <script>
@@ -146,10 +208,12 @@
             bmi = weightKg / (heightM * heightM);
           }
         } else {
+          const heightFt = parseFloat(document.getElementById("heightFt").value);
           const heightIn = parseFloat(document.getElementById("heightIn").value);
           const weightLb = parseFloat(document.getElementById("weightLb").value);
-          if (heightIn && weightLb) {
-            bmi = (weightLb / (heightIn * heightIn)) * 703;
+          if (heightFt >= 0 && heightIn >= 0 && weightLb > 0) {
+            const totalInches = (heightFt * 12) + heightIn;
+            bmi = (weightLb / (totalInches * totalInches)) * 703;
           }
         }
 
@@ -158,7 +222,7 @@
           document.getElementById("bmiResult").textContent = `Your BMI is ${result}`;
           document.getElementById("bmiInterpretation").textContent = interpretBMI(bmi);
         } else {
-          document.getElementById("bmiResult").textContent = "Please enter valid numbers.";
+          document.getElementById("bmiResult").textContent = "Please enter valid values.";
           document.getElementById("bmiInterpretation").textContent = "";
         }
       }
@@ -166,8 +230,8 @@
       function interpretBMI(bmi) {
         if (bmi < 18.5) return "You are underweight. Consider a nutrition plan.";
         else if (bmi < 24.9) return "You are in a healthy BMI range. Keep it up!";
-        else if (bmi < 29.9) return "You are overweight. Consider some light exercise.";
-        else return "You are in the obese range. Consult a healthcare provider.";
+        else if (bmi < 29.9) return "You are overweight. Consider some exercise.";
+        else return "You are in the obese range. Please consult a healthcare provider.";
       }
 
       function resetForm() {
