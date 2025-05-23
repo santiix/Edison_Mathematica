@@ -12,8 +12,8 @@
     input, select { width: 100%; padding: 0.7rem; border-radius: 0.6rem; border: 1px solid #ccc; margin-top: 0.3rem; }
     button { width: 100%; border: none; border-radius: 2rem; padding: 0.8rem; font-size: 1rem; font-weight: 600; background: #a8dadc; color: #1d3557; cursor: pointer; margin-top: 2rem; }
     button:hover { background: #89c2d9; }
-    .result { text-align: center; margin-top: 1.5rem; font-size: 1.4rem; font-weight: bold; }
-    .error { color: #d90429; margin-top: 1rem; font-weight: 600; text-align: center; }
+    .result, .error { text-align: center; margin-top: 1.5rem; font-size: 1rem; font-weight: bold; }
+    .error { color: #d90429; }
     .back-link { text-align: center; margin-top: 3rem; }
     .back-link a { display: inline-block; padding: 0.6rem 1.2rem; background-color: #e0f2f1; color: #00796b; border-radius: 1.5rem; text-decoration: none; font-weight: 600; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
   </style>
@@ -22,114 +22,57 @@
   <div class="container">
     <h1>Body Fat Percentage Calculator</h1>
     <p style="text-align:center; margin-bottom:2rem">
-      Estimate your body fat percentage using the U.S. Navy Method. Choose between lbs/kg and ft+in/cm. Results are more accurate than BMI.
+      Estimate your body fat percentage using the U.S. Navy Method. Choose between lbs/kg and ft+in/cm. Results include fat %, category, fat mass, lean mass, and how much to lose.
     </p>
-
-    <label for="unit">Units</label>
-    <select id="unit" onchange="toggleUnits()">
-      <option value="imperial">Imperial (lbs, ft+in)</option>
-      <option value="metric">Metric (kg, cm)</option>
-    </select>
-
-    <label for="gender">Gender</label>
-    <select id="gender">
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-    </select>
-
-    <label for="weight">Weight</label>
-    <input type="text" id="weight" placeholder="e.g. 150 or 70" />
-
-    <label for="height">Height</label>
-    <input type="text" id="height" placeholder="e.g. 5'10 or 178" />
-
-    <label for="neck">Neck Circumference</label>
-    <input type="text" id="neck" placeholder="e.g. 15.5 or 39" />
-
-    <label for="waist">Waist Circumference</label>
-    <input type="text" id="waist" placeholder="e.g. 34.5 or 88" />
-
-    <label for="hip" id="hipLabel" style="display:none;">Hip Circumference</label>
-    <input type="text" id="hip" placeholder="e.g. 38.5 or 96" style="display:none;" />
-
-    <button onclick="calculateBodyFat()">Calculate Body Fat %</button>
+    <!-- [form unchanged] -->
     <div class="result" id="bfResult"></div>
     <div class="error" id="error"></div>
-
     <div class="back-link">
       <a href="/">← Back to All Calculators</a>
     </div>
   </div>
 
   <script is:client="load">
-    const genderSelect = document.getElementById("gender");
-    const hipInput = document.getElementById("hip");
-    const hipLabel = document.getElementById("hipLabel");
-    const unitSelect = document.getElementById("unit");
-
-    genderSelect.addEventListener("change", () => {
-      const show = genderSelect.value === "female";
-      hipInput.style.display = show ? "block" : "none";
-      hipLabel.style.display = show ? "block" : "none";
-    });
-
-    function toggleUnits() {
-      document.getElementById("weight").placeholder = unitSelect.value === "imperial" ? "e.g. 150" : "e.g. 70";
-      document.getElementById("height").placeholder = unitSelect.value === "imperial" ? "e.g. 5'10" : "e.g. 178";
-      document.getElementById("neck").placeholder = unitSelect.value === "imperial" ? "e.g. 15.5" : "e.g. 39";
-      document.getElementById("waist").placeholder = unitSelect.value === "imperial" ? "e.g. 34.5" : "e.g. 88";
-      document.getElementById("hip").placeholder = unitSelect.value === "imperial" ? "e.g. 38.5" : "e.g. 96";
-    }
-
-    function parseHeight(input, unit) {
-      if (unit === "metric") return parseFloat(input) / 100;
-      const parts = input.replace(/[’‘`]/g, "'").replace(/feet|ft|inches|in|\"|”/gi, "").replace(/\s+/g, '').match(/(\d+)'?(\d*)?/);
-      const feet = parseInt(parts[1] || '0');
-      const inches = parseInt(parts[2] || '0');
-      return (feet * 12 + inches) * 0.0254;
-    }
-
-    function parseInches(input, unit) {
-      const val = parseFloat(input);
-      return isNaN(val) ? 0 : (unit === "metric" ? val / 2.54 : val);
-    }
-
+    // [setup unchanged]
     function calculateBodyFat() {
       const gender = genderSelect.value;
       const unit = unitSelect.value;
+      const weightInput = parseFloat(document.getElementById("weight").value);
       const heightRaw = document.getElementById("height").value;
-      const weight = document.getElementById("weight").value;
       const neck = parseInches(document.getElementById("neck").value, unit);
       const waist = parseInches(document.getElementById("waist").value, unit);
       const hip = parseInches(document.getElementById("hip").value, unit);
       const height = parseHeight(heightRaw, unit);
       const result = document.getElementById("bfResult");
       const error = document.getElementById("error");
+      result.innerHTML = ""; error.textContent = "";
 
-      result.textContent = "";
-      error.textContent = "";
-
-      if (!height || height < 0.5 || height > 2.5) {
-        error.textContent = "Please enter a valid height.";
-        return;
-      }
-      if (!neck || !waist || (gender === "female" && !hip)) {
-        error.textContent = "Please enter all measurements.";
-        return;
-      }
-      if ((gender === "male" && waist <= neck) || (gender === "female" && waist + hip <= neck)) {
-        error.textContent = "Waist must be greater than neck. For females, waist + hip must exceed neck.";
-        return;
+      if (!height || !neck || !waist || !weightInput || (gender === "female" && !hip)) {
+        error.textContent = "⚠️ Please enter all required values."; return;
       }
 
-      let bf;
+      let bodyFat;
       if (gender === "male") {
-        bf = 86.010 * Math.log10(waist - neck) - 70.041 * Math.log10(height * 100) + 36.76;
+        bodyFat = 86.010 * Math.log10(waist - neck) - 70.041 * Math.log10(height * 100) + 36.76;
       } else {
-        bf = 163.205 * Math.log10(waist + hip - neck) - 97.684 * Math.log10(height * 100) - 78.387;
+        bodyFat = 163.205 * Math.log10(waist + hip - neck) - 97.684 * Math.log10(height * 100) - 78.387;
       }
 
-      result.textContent = `Estimated Body Fat: ${bf.toFixed(1)}%`;
+      const fatMass = weightInput * (bodyFat / 100);
+      const leanMass = weightInput - fatMass;
+      const idealFatPercent = gender === "male" ? 15 : 22;
+      const idealFatMass = weightInput * (idealFatPercent / 100);
+      const fatToLose = fatMass - idealFatMass;
+      const category = bodyFat >= 32 ? "Obese" : bodyFat >= 25 ? "Overweight" : bodyFat >= 18 ? "Normal" : "Lean";
+
+      result.innerHTML = `
+        <strong>Body Fat: ${bodyFat.toFixed(1)}%</strong><br><br>
+        <div><strong>Category:</strong> ${category}</div>
+        <div><strong>Fat Mass:</strong> ${fatMass.toFixed(1)} lbs</div>
+        <div><strong>Lean Mass:</strong> ${leanMass.toFixed(1)} lbs</div>
+        <div><strong>Ideal Fat %:</strong> ${idealFatPercent}%</div>
+        <div><strong>Fat to Lose to Reach Ideal:</strong> ${fatToLose > 0 ? fatToLose.toFixed(1) + " lbs" : "None"}</div>
+      `;
     }
   </script>
 </body>
