@@ -121,6 +121,8 @@
   </div>
 
   <script is:client="load">
+    let growthChartInstance;
+
     function calculateIncrease() {
       const oldVal = parseFloat(document.getElementById("increaseOld").value);
       const newVal = parseFloat(document.getElementById("increaseNew").value);
@@ -167,51 +169,58 @@
       resultEl.textContent = `Percentage Difference: ${result.toFixed(2)}%`;
     }
 
-    function calculateGrowth() {
-      const start = parseFloat(document.getElementById("growthStart").value);
-      const end = parseFloat(document.getElementById("growthEnd").value);
-      const days = parseInt(document.getElementById("growthDays").value);
-      const resultEl = document.getElementById("growthResult");
-      const chartEl = document.getElementById("growthChart");
+	function calculateGrowth() {
+	  const start = parseFloat(document.getElementById("growthStart").value);
+	  const end = parseFloat(document.getElementById("growthEnd").value);
+	  const days = parseInt(document.getElementById("growthDays").value);
+	  const resultEl = document.getElementById("growthResult");
+	  const chartEl = document.getElementById("growthChart");
 
-      if (isNaN(start) || isNaN(end) || isNaN(days) || start === 0 || days <= 0) {
-        resultEl.textContent = "Please enter valid numbers and a positive number of days.";
-        return;
-      }
-      const growth = ((end - start) / start) * 100;
-      resultEl.textContent = `Percentage Growth: ${growth.toFixed(2)}% over ${days} days.`;
+	  if (isNaN(start) || isNaN(end) || isNaN(days) || start === 0 || days <= 0) {
+	    resultEl.textContent = "Please enter valid numbers and a positive number of days.";
+	    return;
+	  }
 
-      const data = [];
-      const labels = [];
-      for (let i = 0; i <= days; i++) {
-        const progress = start + ((end - start) * (i / days));
-        data.push(progress);
-        labels.push(`Day ${i}`);
-      }
+	  const growth = ((end - start) / start) * 100;
+	  resultEl.textContent = `Percentage Growth: ${growth.toFixed(2)}% over ${days} days.`;
 
-      new Chart(chartEl, {
-        type: 'line',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Growth Over Time',
-            data: data,
-            fill: false,
-            borderColor: '#1d3557',
-            tension: 0.1
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              display: true,
-              position: 'top'
-            }
-          }
-        }
-      });
-    }
+	  const data = [];
+	  const labels = [];
+	  for (let i = 0; i <= days; i++) {
+	    const progress = start + ((end - start) * (i / days));
+	    data.push(progress);
+	    labels.push(`Day ${i}`);
+ 	 }
+
+	  // ✅ Destroy previous chart if exists
+	  if (growthChartInstance) {
+	    growthChartInstance.destroy();
+	  }
+
+	  // ✅ Create new chart
+	  growthChartInstance = new Chart(chartEl, {
+	    type: 'line',
+	    data: {
+	      labels: labels,
+	      datasets: [{
+ 	       label: 'Growth Over Time',
+ 	       data: data,
+	        fill: false,
+	        borderColor: '#1d3557',
+	        tension: 0.1
+	      }]
+	    },
+	    options: {
+	      responsive: true,
+	      plugins: {
+	        legend: {
+	          display: true,
+	          position: 'top'
+	        }
+	      }
+	    }
+	  });
+	}
   </script>
 </body>
 </html>
