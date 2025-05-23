@@ -24,7 +24,38 @@
     <p style="text-align:center; margin-bottom:2rem">
       Estimate your body fat percentage using the U.S. Navy Method. Choose between lbs/kg and ft+in/cm. Results include fat %, category, fat mass, lean mass, and how much to lose.
     </p>
-    <!-- [form unchanged] -->
+const genderSelect = document.getElementById("gender");
+const hipInput = document.getElementById("hip");
+const hipLabel = document.getElementById("hipLabel");
+const unitSelect = document.getElementById("unit");
+
+genderSelect.addEventListener("change", () => {
+  const show = genderSelect.value === "female";
+  hipInput.style.display = show ? "block" : "none";
+  hipLabel.style.display = show ? "block" : "none";
+});
+
+function toggleUnits() {
+  document.getElementById("weight").placeholder = unitSelect.value === "imperial" ? "e.g. 150" : "e.g. 70";
+  document.getElementById("height").placeholder = unitSelect.value === "imperial" ? "e.g. 5'10" : "e.g. 178";
+  document.getElementById("neck").placeholder = unitSelect.value === "imperial" ? "e.g. 15.5" : "e.g. 39";
+  document.getElementById("waist").placeholder = unitSelect.value === "imperial" ? "e.g. 34.5" : "e.g. 88";
+  document.getElementById("hip").placeholder = unitSelect.value === "imperial" ? "e.g. 38.5" : "e.g. 96";
+}
+
+function parseHeight(input, unit) {
+  if (unit === "metric") return parseFloat(input) / 100;
+  const parts = input.replace(/[’‘`]/g, "'").replace(/feet|ft|inches|in|\"|”/gi, "").replace(/\s+/g, '').match(/(\d+)'?(\d*)?/);
+  const feet = parseInt(parts[1] || '0');
+  const inches = parseInt(parts[2] || '0');
+  return (feet * 12 + inches) * 0.0254;
+}
+
+function parseInches(input, unit) {
+  const val = parseFloat(input);
+  return isNaN(val) ? 0 : (unit === "metric" ? val / 2.54 : val);
+}
+
     <div class="result" id="bfResult"></div>
     <div class="error" id="error"></div>
     <div class="back-link">
