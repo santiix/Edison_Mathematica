@@ -1,0 +1,51 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Time Calculator Minutes - Add, Subtract & Convert Time</title>
+  <meta name="description" content="Free Time Calculator for minutes. Add, subtract, and convert between hours and minutes. Get accurate time calculations instantly." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #f9f9f9; padding: 2rem; color: #333; margin: 0; }
+    .container { max-width: 600px; background: #fff; padding: 2rem; margin: auto; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+    h1 { text-align: center; color: #264653; margin-bottom: 1.5rem; }
+    label { display: block; font-weight: bold; margin-top: 1rem; }
+    input { width: 100%; padding: 0.6rem; margin-top: 0.3rem; border-radius: 0.5rem; border: 1px solid #ccc; }
+    button { margin-top: 1.5rem; padding: 0.75rem; width: 100%; font-size: 1rem; font-weight: bold; background: #2a9d8f; color: #fff; border: none; border-radius: 0.5rem; cursor: pointer; }
+    button:hover { background: #21867a; }
+    .result { margin-top: 1.5rem; text-align: center; font-size: 1.2rem; font-weight: bold; }
+    .back-link { text-align: center; margin-top: 2rem; }
+    .back-link a { color: #0077cc; text-decoration: none; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🕒 Time Calculator Minutes</h1>
+    <p style="text-align:center">Use this tool to add or subtract time in hours and minutes. Convert total minutes to readable time.</p>
+
+    <label for="hours">Hours</label>
+    <input type="number" id="hours" placeholder="e.g. 2">
+
+    <label for="minutes">Minutes</label>
+    <input type="number" id="minutes" placeholder="e.g. 45">
+
+    <button onclick="calculateTime()">Calculate Total Minutes</button>
+
+    <div class="result" id="result"></div>
+
+    <div class="back-link">
+      <a href="/">← Back to All Calculators</a>
+    </div>
+  </div>
+
+  <script is:client="load">
+    function calculateTime() {
+      const h = parseInt(document.getElementById('hours').value) || 0;
+      const m = parseInt(document.getElementById('minutes').value) || 0;
+      const total = h * 60 + m;
+      const outH = Math.floor(total / 60);
+      const outM = total % 60;
+      document.getElementById('result').innerHTML = `Total Time: <strong>${total}</strong> minutes<br>(That’s <strong>${outH} hour(s) and ${outM} minute(s)</strong>)`;
+    }
+  </script>
+</body>
+</html>
