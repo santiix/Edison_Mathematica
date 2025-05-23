@@ -30,7 +30,7 @@
             "name": "How do I input 5'9 into the calculator?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Just type 5'9 or 5ft 9in — the calculator will automatically detect and convert it for you."
+              "text": "Just type 5'9, 5 ft 9, or 5’9 — the calculator will automatically detect and convert it for you."
             }
           },
           {
@@ -181,25 +181,31 @@
 
     <script>
       function toggleFields() {
-        const heightLabel = document.getElementById("heightInput");
-        const unit = document.getElementById("heightUnit").value;
-        heightLabel.placeholder = unit === "cm" ? "e.g. 170" : "e.g. 5'9";
+        const heightUnit = document.getElementById("heightUnit").value;
+        document.getElementById("heightInput").placeholder = heightUnit === "cm" ? "e.g. 170" : "e.g. 5'9";
       }
 
       function parseHeight(input, unit) {
         if (unit === "cm") {
-          return parseFloat(input) / 100; // cm to meters
+          return parseFloat(input) / 100;
         }
-        // Try parsing 5'9
+
+        input = input.trim()
+          .replace(/[’‘`]/g, "'")         // normalize quotes
+          .replace(/ft|feet|in|inches|"/gi, "") // strip units
+          .replace(/\s+/g, '');           // remove spaces
+
         const regex = /^(\d+)'(\d+)?$/;
-        const match = input.trim().match(regex);
+        const match = input.match(regex);
+
         if (match) {
           const feet = parseInt(match[1], 10);
           const inches = parseInt(match[2] || "0", 10);
-          const totalInches = feet * 12 + inches;
-          return totalInches * 0.0254;
+          return (feet * 12 + inches) * 0.0254;
         }
-        return parseFloat(input) * 0.0254; // fallback if only inches
+
+        const fallback = parseFloat(input);
+        return isNaN(fallback) ? null : fallback * 0.0254;
       }
 
       function parseWeight(input, unit) {
@@ -228,6 +234,7 @@
 
         if (!heightM || !weightKg) {
           document.getElementById("bmiResult").textContent = "Please enter valid height and weight.";
+          document.getElementById("bmiInterpretation").textContent = "";
           return;
         }
 
